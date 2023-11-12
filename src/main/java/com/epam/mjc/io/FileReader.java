@@ -18,8 +18,9 @@ public class FileReader {
             return toProfile(profileMap);
         } catch (IOException e) {
            e.printStackTrace();
-           throw new RuntimeException(e);
         }
+
+        return null;
     }
 
     private Profile toProfile(Map<String, String> profileMap) {
