@@ -7,24 +7,27 @@ import java.util.Map;
 
 public class FileReader {
 
-    public static Profile getDataFromFile(File file) {
-        try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file.getName()))) {
+    public Profile getDataFromFile(File file) {
+        try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file.getPath()))) {
             Map<String, String> profileMap = new HashMap<>();
-            ;
             String line;
             while ((line = reader.readLine()) != null) {
-                profileMap.put(line.split(" ")[0], line.split(" ")[1]);
+                String[] splitedString = line.split(" ");
+                profileMap.put(splitedString[0], splitedString[1]);
             }
-            Profile profile = new Profile();
-            profile.setName(profileMap.get("Name:"));
-            profile.setAge(Integer.valueOf(profileMap.get("Age:")));
-            profile.setEmail(profileMap.get("Email:"));
-            profile.setPhone(Long.valueOf(profileMap.get("Phone:")));
-
-            return profile;
+            return toProfile(profileMap);
         } catch (IOException e) {
            e.printStackTrace();
            throw new RuntimeException(e);
         }
+    }
+
+    private Profile toProfile(Map<String, String> profileMap) {
+        Profile profile = new Profile();
+        profile.setName(profileMap.get("Name:"));
+        profile.setAge(Integer.valueOf(profileMap.get("Age:")));
+        profile.setEmail(profileMap.get("Email:"));
+        profile.setPhone(Long.valueOf(profileMap.get("Phone:")));
+        return profile;
     }
 }
